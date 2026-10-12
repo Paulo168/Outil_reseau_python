@@ -1,5 +1,5 @@
 import subprocess
-
+import socket
 def afficher_config_ip():
     resultat = subprocess.run(
     ["ipconfig", "/all"],
@@ -15,7 +15,6 @@ def afficher_wifi():
         capture_output=True, text=True,
         encoding="cp850", errors="replace"
     )
-    # Si le code de retour n'est pas 0, la commande a échoué (ex: pas de carte Wi-Fi)
     if resultat.returncode != 0:
         print("Carte réseau désactivée ou non existante.")
     else:
@@ -34,10 +33,32 @@ def tester_ping():
     )
     print(resultat.stdout)
 
+def resoudre_nom():
+    nom = input("Nom de domaine : ").strip()
+    resultats = socket.getaddrinfo(nom, None)
+    for ligne in resultats:
+        print(ligne[4][0])
+    try:
+        resultats = socket.getaddrinfo(nom, None)
+    except socket.gaierror as erreur:
+        print("Résolution impossible :", erreur)
+    return
+
+def test_tcp() :
+    hote = input("Hôte : ").strip()
+    port = int(input("Port TCP : "))
+    try:
+        with socket.create_connection((hote, port), timeout=2):
+            print("Connexion TCP établie")
+    except OSError as erreur:
+        print("Connexion impossible :", erreur)
+
 while True :
     print("1 - Configuration IP")
     print("2 - Réseaux Wi-fi visibles")
     print("3 - Tester le ping -- ip nécessaire --")
+    print("4 - Résoudre nom de domaine")
+    print("5 - Tester le service TCP")
     print("0 - Quitter")
     choix = input("Votre choix : ")
 
@@ -47,6 +68,10 @@ while True :
         afficher_wifi()
     elif choix == "3":
         tester_ping()
+    elif choix == "4":
+        resoudre_nom()
+    elif choix == "5":
+        test_tcp()
     elif choix == "0":
         break
     else:
