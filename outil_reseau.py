@@ -1,5 +1,7 @@
 import subprocess
 import socket
+import ipaddress
+
 def afficher_config_ip():
     resultat = subprocess.run(
     ["ipconfig", "/all"],
@@ -53,12 +55,21 @@ def test_tcp() :
     except OSError as erreur:
         print("Connexion impossible :", erreur)
 
+def calcul_reseau() :
+    adresse = input("Adresse IPv4 : ").strip()
+    masque = input("Masque ou préfixe : ").strip()
+    reseau = ipaddress.IPv4Network(adresse + "/" + masque, strict=False)
+    print("Réseau :", reseau.network_address)
+    print("Préfixe :", reseau.prefixlen)
+    print("Diffusion :", reseau.broadcast_address)
+
 while True :
     print("1 - Configuration IP")
     print("2 - Réseaux Wi-fi visibles")
     print("3 - Tester le ping -- ip nécessaire --")
     print("4 - Résoudre nom de domaine")
     print("5 - Tester le service TCP")
+    print("6 - Calculer les informations d'un réseau IPv4")
     print("0 - Quitter")
     choix = input("Votre choix : ")
 
@@ -72,6 +83,8 @@ while True :
         resoudre_nom()
     elif choix == "5":
         test_tcp()
+    elif choix == "6":
+        calcul_reseau()
     elif choix == "0":
         break
     else:
