@@ -10,7 +10,17 @@ def afficher_config_ip():
 
 
 def afficher_wifi():
-    print("J'ai pas de wifi disponible sur ce pc je fais comment pour développer cette fonctionnalité je suis pas Chuck Norris")
+    resultat = subprocess.run(
+        ["netsh", "wlan", "show", "networks", "mode=bssid"],
+        capture_output=True, text=True,
+        encoding="cp850", errors="replace"
+    )
+    # Si le code de retour n'est pas 0, la commande a échoué (ex: pas de carte Wi-Fi)
+    if resultat.returncode != 0:
+        print("Carte réseau désactivée ou non existante.")
+    else:
+        print(resultat.stdout)
+
 
 def tester_ping():
     adresse = input("Adresse IP ou nom : ").strip()
