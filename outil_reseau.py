@@ -1,11 +1,13 @@
 import subprocess
 
-afficher_config_ip = resultat = subprocess.run(
+def afficher_config_ip():
+    resultat = subprocess.run(
     ["ipconfig", "/all"],
     capture_output=True, text=True,
     encoding="cp850", errors="replace"
-)
-print(resultat.stdout)
+    )
+    print(resultat.stdout)
+
 
 
 while True :
