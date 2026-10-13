@@ -115,6 +115,16 @@ def calculatrice() :
         print("\n [Erreur] Entrez des nombres valables. \n"
         )
 
+def traceroute() :
+    nom_de_domaine = input("Entrer une URL : ").strip()
+    resultat = subprocess.run(
+    ["tracert", nom_de_domaine],
+    capture_output=True, text=True,
+    encoding="cp850", errors="replace"
+    )
+    print(resultat.stdout)
+
+
 while True :
     print("1 - Configuration IP")
     print("2 - Réseaux Wi-fi visibles")
@@ -123,6 +133,7 @@ while True :
     print("5 - Tester le service TCP")
     print("6 - Calculer les informations d'un réseau IPv4")
     print("7 - Calculatrice primaire")
+    print("8 - Traceroute (entrer une URL)")
     print("0 - Quitter")
     choix = input("Votre choix : ")
 
@@ -140,6 +151,8 @@ while True :
         calcul_reseau()
     elif choix == "7":
         calculatrice()
+    elif choix == "8":
+        traceroute()
     elif choix == "0":
         break
     else:
