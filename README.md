@@ -39,3 +39,5 @@ Cet outil est une calculatrice capable d'effectuer des opérations simples comme
 ## Conseils d'utilisation
 
 Faites bien attention à rentrer les bons formats comme l'adresse IP en format 255.255.255.255 ou encore les noms de domaines, les erreurs peuvent venir de domaines mal orthographiés.
+
+![alt text](https://github.com/Paulo168/Outil_reseau_python/Images/Internet "Internet")
