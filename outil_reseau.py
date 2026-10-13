@@ -48,10 +48,14 @@ def resoudre_nom():
 
 def test_tcp() :
     hote = input("Hôte : ").strip()
-    port = int(input("Port TCP : "))
+    try :
+        port = int(input("Port TCP : "))
+    except ValueError:
+        print("\n Entrez un format de port valide. (Nombre entier) \n")
+        return
     try:
         with socket.create_connection((hote, port), timeout=2):
-            print("Connexion TCP établie")
+           print("Connexion TCP établie")
     except OSError as erreur:
         print("Connexion impossible :", erreur, ", veuillez vérifier que l'adresse et le port correspondent.")
 
