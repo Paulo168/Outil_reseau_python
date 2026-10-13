@@ -53,16 +53,28 @@ def test_tcp() :
         with socket.create_connection((hote, port), timeout=2):
             print("Connexion TCP établie")
     except OSError as erreur:
-        print("Connexion impossible :", erreur)
+        print("Connexion impossible :", erreur, ", veuillez vérifier que l'adresse et le port correspondent.")
 
 def calcul_reseau() :
-    adresse = input("Adresse IPv4 : ").strip()
-    masque = input("Masque ou préfixe : ").strip()
-    reseau = ipaddress.IPv4Network(adresse + "/" + masque, strict=False)
-    print("Réseau :", reseau.network_address)
-    print("Préfixe :", reseau.prefixlen)
-    print("Diffusion :", reseau.broadcast_address)
-
+    
+    try:
+        adresse = input("Adresse IPv4 : ").strip()
+        masque = input("Masque ou préfixe : ").strip()
+        reseau = ipaddress.IPv4Network(adresse + "/" + masque, strict=False)
+        print("\n --- Informations réseau ---")
+        print("Réseau :", reseau.network_address)
+        print("Préfixe :", reseau.prefixlen)
+        print("Diffusion :", reseau.broadcast_address)
+    
+    except (
+        ValueError,
+        ipaddress.AddressValueError,
+        ipaddress.NetmaskValueError,
+    ):
+        print(
+            "\n[Erreur] L'adresse IP ou le masque saisi est invalide. Veuillez"
+            " recommencer.\n"
+      )
 while True :
     print("1 - Configuration IP")
     print("2 - Réseaux Wi-fi visibles")
